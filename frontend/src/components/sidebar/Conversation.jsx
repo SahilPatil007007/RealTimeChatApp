@@ -1,16 +1,28 @@
-const Conversation  = () =>{
+import { useSocketContext } from "../../context/SocketContext";
+import useConversation from "../../zustand/useConversation";
+
+const Conversation  = ({conversation}) =>{
+
+    const {selectedConversation, setSelectedConversation} = useConversation();
+    const isSelected = selectedConversation?._id === conversation._id;
+
+    const { onlineUsers } = useSocketContext();
+	const isOnline = onlineUsers.includes(conversation._id);
+    console.log(onlineUsers);
 
     return(
         <>
-            <div className="flex gap-3 items-center hover:bg-conver-violet rounded p-2 py-1 ">
-                <div className="avatar online">
+            <div className={`flex gap-3 items-center hover:bg-conver-violet rounded p-2 py-1 ${isSelected ? "bg-conver-violet" : ""}`}
+                onClick={() => setSelectedConversation(conversation)}
+            >
+                <div className={`avatar ${isOnline ? "online": ""}`}>
                     <div className="w-14 rounded-full">
-                        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                        <img src={conversation.profilePic} alt= 'User avatar'/>
                     </div>
                 </div>
 
                 <div className="hover:bg-conver-violet font-bold text-gray-300">
-                    <p>Sahil Patil</p>
+                    <p>{conversation.fullName}</p>
                 </div>
 
             </div>

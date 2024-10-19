@@ -1,5 +1,5 @@
 import Conversations from "./Conversations";
-import Logout from "./Logout";
+import LogoutButton from "./Logout";
 import Searchinput from "./SearchInput";
 
 const Sidebar = () => {
@@ -11,7 +11,7 @@ const Sidebar = () => {
         {/* Conversations from contacts */}
         <Conversations />
 
-        <Logout />
+        <LogoutButton />
       </div>
     );
   };
