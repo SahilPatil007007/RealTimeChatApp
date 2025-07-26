@@ -14,3 +14,31 @@ export const getUsersForSidebar = async(req,res) => {
         res.status(500).json({error: "Internal Server Error"});
     }
 }
+
+export const setUsers = async(req,res) => {
+    try{
+        const loggedInUserId = req.user._id;
+        const { fullName, username } = req.body;
+        let imageUrl = "";
+
+        if(req.file){
+            imageUrl = req.file.path;
+        }
+
+        const findUser = await User.findById(loggedInUserId); 
+
+
+        findUser.fullName = fullName || findUser.fullName;
+        findUser.username = username || findUser.username;
+
+        if(imageUrl){
+            findUser.profilePic = imageUrl;
+        }
+
+        await findUser.save();
+        res.status(200).json("User updated succefully");
+    }catch(error){
+        console.log("Error in setUser Service: ", error.message);
+        res.status(500).json({error: "Internal Server Error"});
+    }
+}

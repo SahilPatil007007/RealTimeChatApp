@@ -8,6 +8,7 @@ export const sendMessage = async(req, res) => {
         const {id: receiverId} = req.params; // Equivalent to req.params.id;
         const senderId = req.user._id; // Getting the sender id from the server Which was save by middleware of protectRoutes
 
+        console.log("receiverId => ", receiverId);
         let conversation = await Conversation.findOne({
             participants: {$all: [senderId, receiverId]},//The $all operator ensures that the conversation contains all the specified participant IDs.
         });
@@ -65,4 +66,48 @@ export const getMessages = async (req, res) => {
 		console.log("Error in getMessages controller: ", error.message);
 		res.status(500).json({ error: "Internal server error" });
 	}
+};
+
+
+
+export const sendImage = async (req,res) => {
+    try{
+        const senderId = req.user._id;
+        const {id : receiverId} = req.params;
+        const imageUrl = req.file.path;
+
+        let conversation = await Conversation.findOne({
+            participants: {$all: [senderId, receiverId]},
+        });
+
+        if(!conversation){
+            conversation = await Conversation.create({
+                participants:[senderId, receiverId],
+            });
+        }
+
+        const newMessage = new Message({
+            senderId,
+            receiverId,
+            imageUrl,
+        })
+
+        if(newMessage){
+            conversation.messages.push(newMessage._id); // Save the refrence to Message model
+        }
+
+        await Promise.all([conversation.save(), newMessage.save()]);
+
+        //Socket Code
+        const receiverSocketId = getReceivedScoketId(receiverId);
+
+        if(receiverSocketId){
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
+
+        res.status(201).json(newMessage);
+    }catch(error){
+        console.log("Error in sendImage Controller: ",error.message);
+        res.status(500).json({error: "Internal Server Error"});
+    }
 };
