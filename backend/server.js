@@ -13,8 +13,15 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cookieParser());
 app.use(express.json());
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+    ? process.env.ALLOWED_ORIGINS.split(',') 
+    : [
+        "https://chit-chat-in.vercel.app",
+        "https://chit-chat-d903x14nl-sahils-projects-93a3d369.vercel.app"
+    ];
+
 app.use(cors({
-    origin: "https://chit-chat-in.vercel.app",
+    origin: allowedOrigins,
     credentials: true
 }));
 

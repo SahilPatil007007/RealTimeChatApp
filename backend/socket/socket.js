@@ -4,10 +4,17 @@ import http from "http";
 
 const app = express();
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+    ? process.env.ALLOWED_ORIGINS.split(',') 
+    : [
+        "https://chit-chat-in.vercel.app",
+        "https://chit-chat-d903x14nl-sahils-projects-93a3d369.vercel.app"
+    ];
+
 const server = http.createServer(app);
 const io = new Server(server, {
     cors:{
-        origin: ["http://localhost:5173"],
+        origin: allowedOrigins,
         methods: ["GET", "POST"],
         credentials: true
     },
