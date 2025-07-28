@@ -5,6 +5,6 @@ import {uploadProfile} from "../middleware/uploadMiddleware.js"
 const router = express.Router();
 
 router.get("/", protectRoutes, getUsersForSidebar);
-router.post("/", protectRoutes, uploadProfile.single("photo"), setUsers);
+router.post("/", protectRoutes, uploadProfile.single("profilePic"), setUsers);
 
 export default router;

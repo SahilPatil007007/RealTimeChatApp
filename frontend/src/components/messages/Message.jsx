@@ -24,7 +24,17 @@ const Message = ({message}) =>{
                         src={profilePic} />
                     </div>
                 </div>
-                <div className={`chat-bubble text-white ${bubbleBgColor} ${shakeClass}`}>{message.message}</div>
+                <div className={`chat-bubble text-white ${bubbleBgColor} ${shakeClass}`}>
+                    {message.imageUrl ? (
+                        <img
+                            src={message.imageUrl}
+                            alt="chat-img"
+                            className="max-w-xs max-h-60 rounded-lg object-cover"
+                        />
+                    ) : (
+                        message.message
+                    )}
+                </div>
                 <div className="chat-footer opacity-50">{formattedTime}</div>
             </div>
         </>
