@@ -8,7 +8,6 @@ export const sendMessage = async(req, res) => {
         const {id: receiverId} = req.params; // Equivalent to req.params.id;
         const senderId = req.user._id; // Getting the sender id from the server Which was save by middleware of protectRoutes
 
-        console.log("receiverId => ", receiverId);
         let conversation = await Conversation.findOne({
             participants: {$all: [senderId, receiverId]},//The $all operator ensures that the conversation contains all the specified participant IDs.
         });
@@ -43,7 +42,6 @@ export const sendMessage = async(req, res) => {
 
     
     }catch(error){
-        console.log("Error in Send Message Controller: ",error.message);
         res.status(500).json({error: "Internal Server Error"});
     }
 }
@@ -63,7 +61,6 @@ export const getMessages = async (req, res) => {
 
 		res.status(200).json(messages);// Sending all the messages between the users
 	} catch (error) {
-		console.log("Error in getMessages controller: ", error.message);
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
@@ -107,7 +104,6 @@ export const sendImage = async (req,res) => {
 
         res.status(201).json(newMessage);
     }catch(error){
-        console.log("Error in sendImage Controller: ",error.message);
         res.status(500).json({error: "Internal Server Error"});
     }
 };
