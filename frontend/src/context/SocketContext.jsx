@@ -22,15 +22,11 @@ export const SocketContextProvider = ({ children }) => {
             });
             setSocket(socket);
     
-            console.log("Socket connected");
-    
             socket.on("getOnlineUsers", (users) => {
-                console.log("Online users received: ", users);
                 setOnlineUsers(users);
             });
     
             return () => {
-                console.log("Socket disconnected");
                 socket.close();
             };
         } else {

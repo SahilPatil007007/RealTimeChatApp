@@ -12,7 +12,6 @@ const MessageContainer = () =>{
         return () => setSelectedConversation(null);
     },[setSelectedConversation]);
     if(selectedConversation){
-        console.log(selectedConversation.fullName);
     }
     return(
         <div className="flex flex-col">

@@ -13,19 +13,16 @@ function App() {
     useEffect(() => {
       const verifyUser = async () => {
           try {
-              console.log("Hiiii");
               const res = await fetch("/api/auth/check", {
                   credentials: "include"
               });
               const data = await res.json();
-              console.log("Bye");
 
               if (data.error) throw new Error();
 
               setAuthUser(data);
               localStorage.setItem("chat-user", JSON.stringify(data));
           } catch {
-              console.log("Hi");
               setAuthUser(null);
               localStorage.removeItem("chat-user");
           }
