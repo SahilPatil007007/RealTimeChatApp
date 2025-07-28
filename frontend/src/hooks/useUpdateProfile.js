@@ -3,11 +3,12 @@ import toast from "react-hot-toast";
 
 const useUpdateProfile = () => {
   const [loading, setLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const updateProfile = async (formData) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch(`${API_URL}/api/users`, {
         method: "POST",
         body: formData,
         credentials: "include",

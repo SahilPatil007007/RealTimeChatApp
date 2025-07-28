@@ -13,7 +13,8 @@ function App() {
     useEffect(() => {
       const verifyUser = async () => {
           try {
-              const res = await fetch("/api/auth/check", {
+              const API_URL = import.meta.env.VITE_API_URL;
+              const res = await fetch(`${API_URL}/api/auth/check`, {
                   credentials: "include"
               });
               const data = await res.json();
